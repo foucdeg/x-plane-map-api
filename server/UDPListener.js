@@ -25,7 +25,7 @@ class UDPListener {
 
   static calculateSpeed(from, to) {
     if (!from || !to) return 0;
-    const distanceInMeters = geolib.getDistance(from, to, 1);
+    const distanceInMeters = geolib.getDistance(from, to, 1) || 0;
     const deltaTInMilliseconds = to.date - from.date;
     const speedInMS = 1000 * distanceInMeters / deltaTInMilliseconds;
     return speedInMS * 3600 / 1852;

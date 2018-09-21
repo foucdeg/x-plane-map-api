@@ -6,10 +6,25 @@ import { formatLatLon } from '../helpers';
 const PlanePopup = ({ plane }) => (
   <Popup>
     <div className="info-window">
-      <strong>{plane.name}</strong><br />
-      {plane.altitude.toLocaleString('en-us', { maximumFractionDigits: 0 })} ft &middot; &nbsp;
-      {plane.heading.toLocaleString('en-us', { maximumFractionDigits: 0 })} &deg; <br />
-      GS {plane.speed.toLocaleString('en-us', { maximumFractionDigits: 0 })} kts <br />
+      <strong>
+        {plane.name}
+      </strong>
+      <br />
+      {plane.altitude.toLocaleString('en-us', { maximumFractionDigits: 0 })}
+      {' '}
+ft &middot; &nbsp;
+      {plane.heading.toLocaleString('en-us', { maximumFractionDigits: 0 })}
+      {' '}
+&deg;
+      {' '}
+      <br />
+      GS
+      {' '}
+      {(plane.speed || 0).toLocaleString('en-us', { maximumFractionDigits: 0 })}
+      {' '}
+kts
+      {' '}
+      <br />
       {formatLatLon(plane.position)}
     </div>
   </Popup>
