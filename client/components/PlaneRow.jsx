@@ -18,7 +18,7 @@ import ClearIcon from '@material-ui/icons/Clear';
 import EditableText from './EditableText';
 import { ICONS } from '../constants';
 
-const makeFloat = float => float.toLocaleString('en-us', { maximumFractionDigits: 0 });
+const makeFloat = float => (float || 0).toLocaleString('en-us', { maximumFractionDigits: 0 });
 
 const makeSubtext = (alt, heading, speed) => `${makeFloat(alt)} ft • ${makeFloat(heading)}° • GS ${makeFloat(speed)} kts`;
 
