@@ -32,6 +32,7 @@ class Panel extends Component {
               onPlaneTraceToggle={this.props.onPlaneTraceToggle.bind(this, plane)}
               onPlaneTraceClear={this.props.onPlaneTraceClear.bind(this, plane)}
               onPlaneIconChange={this.props.onPlaneIconChange.bind(this, plane)}
+              onPlaneReplayMode={this.props.onPlaneReplayMode.bind(this, plane)}
               onPlaneRename={this.props.onPlaneRename.bind(this, plane)}
             />
           ))}
@@ -55,6 +56,7 @@ Panel.propTypes = {
   onPlaneTraceClear: PropTypes.func.isRequired,
   onPlaneTraceToggle: PropTypes.func.isRequired,
   onPlaneIconChange: PropTypes.func.isRequired,
+  onPlaneReplayMode: PropTypes.func.isRequired,
   onPlaneRename: PropTypes.func.isRequired,
 };
 

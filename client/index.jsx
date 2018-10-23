@@ -1,4 +1,5 @@
-/* globals document */
+/* globals window, document */
+/* eslint no-underscore-dangle: "off" */
 
 import React from 'react';
 import { render } from 'react-dom';
@@ -11,6 +12,7 @@ import App from './components/App';
 
 const store = createStore(
   xPlaneMapApp,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
   applyMiddleware(thunk),
 );
 

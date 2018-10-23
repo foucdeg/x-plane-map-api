@@ -41,3 +41,5 @@ export const NAV_OVERLAY_OPTIONS = {
   minZoom: 6,
   maxZoom: 12,
 };
+
+export const REFRESH_FRAME_RATE = 200;

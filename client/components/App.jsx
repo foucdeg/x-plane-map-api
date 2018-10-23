@@ -8,6 +8,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import MenuIcon from '@material-ui/icons/Menu';
 import PlanesMap from '../containers/PlanesMap';
 import PlanesPanel from '../containers/PlanesPanel';
+import PlaneReplayControls from '../containers/PlaneReplayControls';
 import '../stylesheets/map.less';
 
 export default class App extends Component {
@@ -55,6 +56,7 @@ export default class App extends Component {
             containerElement={<div style={{ height: '100%' }} />}
             mapElement={<div style={{ height: '100%' }} />}
           />
+          <PlaneReplayControls />
           <div className="buttons">
             <Tooltip title={this.state.isPanelOpen ? 'Hide panel' : 'Show panel'}>
               <Button size="small" variant="raised" color="primary" onClick={this.togglePanel}>
