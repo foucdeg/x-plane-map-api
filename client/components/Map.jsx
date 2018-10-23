@@ -14,7 +14,8 @@ import PlanePopup from './PlanePopup';
 
 require('leaflet.gridlayer.googlemutant');
 
-const navTiles = 'https://tiles-{s}.flightplandatabase.com/nav/{z}/{x}/{y}.png';
+const navTiles = 'https://{s}.gis.flightplandatabase.com/tile/nav/{z}/{x}/{y}.png';
+const navLayerAttribution = '<a href=“https://flightplandatabase.com”>Flight Plan Database</a>';
 
 class Map extends Component {
   constructor() {
@@ -59,7 +60,7 @@ class Map extends Component {
             <GoogleTerrainLayer />
           </LayersControl.BaseLayer>
           <LayersControl.Overlay name="Navaids">
-            <TileLayer url={navTiles} />
+            <TileLayer url={navTiles} attribution={navLayerAttribution} />
           </LayersControl.Overlay>
         </LayersControl>
         { this.props.planes.map(plane => (
