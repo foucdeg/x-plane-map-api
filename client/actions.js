@@ -7,6 +7,7 @@ export const REMOVE_PLANE = 'REMOVE_PLANE';
 export const TOGGLE_TRACE = 'TOGGLE_TRACE';
 export const CLEAR_TRACE = 'CLEAR_TRACE';
 export const ENTER_REPLAY_MODE = 'ENTER_REPLAY_MODE';
+export const REFRESH_REPLAY = 'REFRESH_REPLAY';
 export const SET_REPLAY_SPEED = 'SET_REPLAY_SPEED';
 export const SET_REPLAY_BACK_TO_START = 'SET_REPLAY_BACK_TO_START';
 export const LEAVE_REPLAY_MODE = 'LEAVE_REPLAY_MODE';
@@ -47,6 +48,10 @@ export function clearTrace(plane) {
 
 export function enterReplayMode(plane) {
   return { type: ENTER_REPLAY_MODE, payload: plane };
+}
+
+export function refreshReplay() {
+  return { type: REFRESH_REPLAY };
 }
 
 export function leaveReplayMode() {

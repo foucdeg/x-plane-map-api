@@ -2,10 +2,12 @@ import { connect } from 'react-redux';
 import { setReplayBackToStart, setReplaySpeed, leaveReplayMode } from '../actions';
 import ReplayControls from '../components/ReplayControls';
 
-const mapStateToProps = state => state.replayControls || {};
+const mapStateToProps = state => ({
+  replaySpeed: state.replayingPlane ? state.replayingPlane.replaySpeed : null,
+});
 
 const mapDispatchToProps = dispatch => ({
-  onBackToStart: () => dispatch(setReplayBackToStart()),
+  onBackToStart: plane => dispatch(setReplayBackToStart(plane)),
   onPause: () => dispatch(setReplaySpeed(0)),
   onPlay: () => dispatch(setReplaySpeed(1)),
   onFastForward: newSpeed => dispatch(setReplaySpeed(newSpeed)),

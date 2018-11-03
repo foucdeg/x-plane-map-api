@@ -17,37 +17,12 @@ require('leaflet.gridlayer.googlemutant');
 const navTiles = 'https://{s}.gis.flightplandatabase.com/tile/nav/{z}/{x}/{y}.png';
 const navLayerAttribution = '<a href=“https://flightplandatabase.com”>Flight Plan Database</a>';
 
-const makeVisiblePath = (fullPath, currentTimestamp) => {
-  const visiblePath = fullPath.filter(({ timestamp }) => timestamp <= currentTimestamp);
-  const lastVisiblePathPoint = visiblePath[visiblePath.length - 1];
-  const nextUnreachedPathPoint = fullPath[visiblePath.length];
-
-  const ratio = (currentTimestamp - lastVisiblePathPoint.timestamp)
-    / (nextUnreachedPathPoint.timestamp - lastVisiblePathPoint.timestamp);
-
-  const proRata = (prevValue, nextValue) => prevValue + ratio * (nextValue - prevValue);
-
-  const virtualIntermediatePoint = {
-    lat: proRata(lastVisiblePathPoint.lat, nextUnreachedPathPoint.lat),
-    lng: proRata(lastVisiblePathPoint.lng, nextUnreachedPathPoint.lng),
-    alt: proRata(lastVisiblePathPoint.alt, nextUnreachedPathPoint.alt),
-  };
-  visiblePath.push(virtualIntermediatePoint);
-
-  return visiblePath;
-};
-
 class Map extends Component {
   constructor() {
     super();
     this.state = {
       currentPosition: [0, 0],
       zoom: 8,
-      replayMode: {
-        currentTimestamp: null,
-        visiblePath: [],
-        position: null,
-      },
     };
 
     this.replayRefreshInterval = null;
@@ -55,15 +30,10 @@ class Map extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.replayingPlane && !this.props.replayingPlane) {
-      const initialPosition = nextProps.replayingPlane.path[0];
-      this.setState({
-        replayMode: {
-          visiblePath: [initialPosition],
-          currentTimestamp: initialPosition.timestamp,
-          position: initialPosition,
-        },
-      });
-      this.replayRefreshInterval = setInterval(this.refreshReplay.bind(this), REFRESH_FRAME_RATE);
+      this.replayRefreshInterval = setInterval(
+        this.props.refreshReplay.bind(this),
+        REFRESH_FRAME_RATE,
+      );
     }
     if (!nextProps.replayingPlane && this.props.replayingPlane) {
       clearInterval(this.replayRefreshInterval);
@@ -77,11 +47,11 @@ class Map extends Component {
     });
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate(nextProps) {
     if (!nextProps.replayingPlane) return true;
     if (!this.props.replayingPlane) return true;
 
-    if (nextState.replayMode.currentTimestamp !== this.state.replayMode.currentTimestamp) {
+    if (nextProps.replayingPlane.currentTimestamp !== this.props.replayingPlane.currentTimestamp) {
       return true;
     }
 
@@ -95,26 +65,6 @@ class Map extends Component {
   handleZoom = (e) => {
     this.setState({
       zoom: e.target._zoom,
-    });
-  }
-
-  refreshReplay() {
-    this.setState((prevState) => {
-      const newTimestamp = prevState.replayMode.currentTimestamp + REFRESH_FRAME_RATE * this.props.replayControls.speed;
-      if (newTimestamp > this.props.replayControls.maxTimestamp) {
-        return {
-
-        };
-      }
-      const newVisiblePath = makeVisiblePath(this.props.replayingPlane.path, newTimestamp);
-
-      return {
-        replayMode: {
-          currentTimestamp: newTimestamp,
-          visiblePath: newVisiblePath,
-          position: newVisiblePath[newVisiblePath.length - 1],
-        },
-      };
     });
   }
 
@@ -161,7 +111,7 @@ class Map extends Component {
         { this.props.replayingPlane && (
           <React.Fragment>
             <RotatingMarker
-              position={this.state.replayMode.position}
+              position={this.props.replayingPlane.position}
               icon={BUILT_ICONS[this.props.replayingPlane.icon]}
               rotationAngle={this.props.replayingPlane.heading}
               rotationOrigin="initial"
@@ -170,7 +120,7 @@ class Map extends Component {
             </RotatingMarker>
             <Trace
               {...POLYLINE_OPTIONS}
-              positions={this.state.replayMode.visiblePath}
+              positions={this.props.replayingPlane.visiblePath}
             />
           </React.Fragment>
         )}
@@ -200,6 +150,7 @@ Map.propTypes = {
   }),
   onPlaneLeave: PropTypes.func.isRequired,
   onReplayEnded: PropTypes.func.isRequired,
+  refreshReplay: PropTypes.func.isRequired,
   replayingPlane: planeType,
 };
 

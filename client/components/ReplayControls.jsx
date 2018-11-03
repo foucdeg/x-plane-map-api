@@ -7,38 +7,52 @@ import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import FastForwardIcon from '@material-ui/icons/FastForward';
 import CloseIcon from '@material-ui/icons/Close';
 
+const ReplayButton = ({ disabled, onClick, children }) => (
+  <Button size="small" variant="raised" color="secondary" onClick={onClick} disabled={disabled}>
+    {children}
+  </Button>
+);
+
+ReplayButton.propTypes = {
+  disabled: PropTypes.bool,
+  onClick: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired,
+};
+
+ReplayButton.defaultProps = {
+  disabled: false,
+};
+
 const ReplayControls = (props) => {
-  if (!props.areControlsVisible) return null;
+  if (props.replaySpeed === null) return null;
 
   return (
     <div className="replay-controls">
-      <Button size="small" variant="raised" color="secondary" onClick={props.onBackToStart}>
+      <ReplayButton onClick={props.onBackToStart}>
         <FirstPageIcon />
-      </Button>
-      <Button size="small" variant="raised" color="secondary" disabled={props.speed === 0} onClick={props.onPause}>
+      </ReplayButton>
+      <ReplayButton disabled={props.replaySpeed === 0} onClick={props.onPause}>
         <PauseIcon />
-      </Button>
-      <Button size="small" variant="raised" color="secondary" disabled={props.speed === 1} onClick={props.onPlay}>
+      </ReplayButton>
+      <ReplayButton disabled={props.replaySpeed === 1} onClick={props.onPlay}>
         <PlayArrowIcon />
-      </Button>
-      <Button size="small" variant="raised" color="secondary" onClick={() => props.onFastForward((props.speed || 1) * 2)}>
+      </ReplayButton>
+      <ReplayButton onClick={() => props.onFastForward((props.replaySpeed || 1) * 2)}>
         <FastForwardIcon />
-      </Button>
-      <Button size="small" variant="raised" color="secondary" onClick={props.onLeaveReplayMode}>
+      </ReplayButton>
+      <ReplayButton onClick={props.onLeaveReplayMode}>
         <CloseIcon />
-      </Button>
+      </ReplayButton>
     </div>
   );
 };
 
 ReplayControls.defaultProps = {
-  speed: 0,
-  areControlsVisible: false,
+  replaySpeed: 0,
 };
 
 ReplayControls.propTypes = {
-  speed: PropTypes.number,
-  areControlsVisible: PropTypes.bool,
+  replaySpeed: PropTypes.number,
   onBackToStart: PropTypes.func.isRequired,
   onPause: PropTypes.func.isRequired,
   onPlay: PropTypes.func.isRequired,

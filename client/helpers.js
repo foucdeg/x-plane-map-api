@@ -68,6 +68,7 @@ function makeNewPlane(oldPlane, newData, ip) {
     lat: latitude,
     lng: longitude,
     alt: altitude,
+    heading,
     timestamp: Date.now(),
   };
 

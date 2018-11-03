@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { setActivePlane, setReplaySpeed } from '../actions';
+import { setActivePlane, setReplaySpeed, refreshReplay } from '../actions';
 import Map from '../components/Map';
 
 const mapStateToProps = state => state;
@@ -7,6 +7,7 @@ const mapStateToProps = state => state;
 const mapDispatchToProps = dispatch => ({
   onPlaneLeave: () => dispatch(setActivePlane(false)),
   onReplayEnded: () => dispatch(setReplaySpeed(0)),
+  refreshReplay: () => dispatch(refreshReplay()),
 });
 
 const PlanesMap = connect(

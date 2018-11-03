@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import * as actions from './actions';
 import { mergePlaneData, togglePlaneTrace, clearPlaneTrace, renamePlane, changePlaneIcon } from './helpers';
-import { resetPlaneToInitialPosition, generateReplayControls } from './replay-helpers';
+import { refreshReplay, resetPlaneToInitialPosition } from './replay-helpers';
 
 const followedPlane = (state = null, action) => {
   switch (action.type) {
@@ -37,24 +37,15 @@ const planes = (state = [], action) => {
 const replayingPlane = (state = null, action) => {
   switch (action.type) {
     case actions.ENTER_REPLAY_MODE:
-      return resetPlaneToInitialPosition({ ...action.payload });
-    case actions.LEAVE_REPLAY_MODE:
-      return null;
-    default:
-      return state;
-  }
-};
-
-const replayControls = (state = null, action) => {
-  switch (action.type) {
-    case actions.ENTER_REPLAY_MODE:
-      return generateReplayControls(action.payload);
-    case actions.SET_REPLAY_SPEED:
-      return { ...state, speed: action.speed };
+      return resetPlaneToInitialPosition(action.payload);
     case actions.SET_REPLAY_BACK_TO_START:
-      return state;
+      return resetPlaneToInitialPosition(state);
     case actions.LEAVE_REPLAY_MODE:
       return null;
+    case actions.REFRESH_REPLAY:
+      return refreshReplay(state);
+    case actions.SET_REPLAY_SPEED:
+      return { ...state, replaySpeed: action.speed };
     default:
       return state;
   }
@@ -64,5 +55,4 @@ export default combineReducers({
   planes,
   followedPlane,
   replayingPlane,
-  replayControls,
 });
