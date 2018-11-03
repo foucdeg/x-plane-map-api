@@ -9,10 +9,9 @@ export const POLYLINE_OPTIONS = {
   outlineColor: '#ffffff',
   weight: 3,
   palette: {
-    0: '#f9ddd4',
-    0.2: '#ffb199',
-    0.6: '#c71d6f',
-    1: '#7c003c',
+    0: '#1a2a6c',
+    0.5: '#b21f1f',
+    1: '#fdbb2d',
   },
   min: 0,
   max: 50000,

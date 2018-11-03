@@ -15,6 +15,7 @@ import PlanePopup from './PlanePopup';
 require('leaflet.gridlayer.googlemutant');
 
 const navTiles = 'https://{s}.gis.flightplandatabase.com/tile/nav/{z}/{x}/{y}.png';
+const osmTiles = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 const navLayerAttribution = '<a href=“https://flightplandatabase.com”>Flight Plan Database</a>';
 
 class Map extends Component {
@@ -77,16 +78,20 @@ class Map extends Component {
         onZoomend={this.handleZoom}
       >
         <LayersControl position="bottomleft">
-          <LayersControl.BaseLayer name="Roads" checked>
+          <LayersControl.BaseLayer name="OpenStreetMap" checked>
+            <TileLayer url={osmTiles} attribution="© OpenStreetMap contributors" />
+          </LayersControl.BaseLayer>
+          <LayersControl.BaseLayer name="Google Maps - Roads">
             <GoogleMapLayer />
           </LayersControl.BaseLayer>
-          <LayersControl.BaseLayer name="Satellite">
+          <LayersControl.BaseLayer name="Google Maps - Satellite">
             <GoogleSatelliteLayer />
           </LayersControl.BaseLayer>
-          <LayersControl.BaseLayer name="Terrain">
+          <LayersControl.BaseLayer name="Google Maps - Terrain">
             <GoogleTerrainLayer />
           </LayersControl.BaseLayer>
-          <LayersControl.Overlay name="Navaids">
+
+          <LayersControl.Overlay name="Airports, localizers and waypoints">
             <TileLayer url={navTiles} attribution={navLayerAttribution} />
           </LayersControl.Overlay>
         </LayersControl>
