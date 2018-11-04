@@ -16,7 +16,7 @@ require('leaflet.gridlayer.googlemutant');
 
 const navTiles = 'https://{s}.gis.flightplandatabase.com/tile/nav/{z}/{x}/{y}.png';
 const osmTiles = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-const navLayerAttribution = '<a href=“https://flightplandatabase.com”>Flight Plan Database</a>';
+const navLayerAttribution = '<a href="https://flightplandatabase.com" target="_blank">Flight Plan Database</a>';
 
 class Map extends Component {
   constructor() {
