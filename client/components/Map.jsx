@@ -1,7 +1,7 @@
 /* eslint no-underscore-dangle: ["error", { "allow": ["_zoom"] }] */
 
 import React, { Component } from 'react';
-import { Map as LeafletMap, LayersControl, TileLayer } from 'react-leaflet';
+import { Map as LeafletMap, LayersControl, TileLayer, Marker } from 'react-leaflet';
 import PropTypes from 'prop-types';
 
 import { POLYLINE_OPTIONS, BUILT_ICONS, REFRESH_FRAME_RATE } from '../constants';
@@ -97,14 +97,12 @@ class Map extends Component {
         </LayersControl>
         { !this.props.replayingPlane && this.props.planes.map(plane => (
           <React.Fragment key={plane.ip}>
-            <RotatingMarker
+            <Marker
               position={plane.position}
               icon={BUILT_ICONS[plane.icon]}
-              rotationAngle={plane.heading}
-              rotationOrigin="initial"
             >
               <PlanePopup plane={plane} />
-            </RotatingMarker>
+            </Marker>
             { plane.isTraceActive && (
               <Trace
                 {...POLYLINE_OPTIONS}

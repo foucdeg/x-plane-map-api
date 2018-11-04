@@ -4,10 +4,8 @@ import PropTypes from 'prop-types';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import IconButton from '@material-ui/core/IconButton';
-import Avatar from '@material-ui/core/Avatar';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
@@ -58,9 +56,7 @@ class PlaneRow extends Component {
         onClick={this.handleRowClick}
         className={this.props.isFollowed ? 'followed' : ''}
       >
-        <ListItemAvatar>
-          <Avatar onClick={this.props.onPlaneIconChange} src={ICONS[icon]} />
-        </ListItemAvatar>
+        <img alt="icon" onClick={this.props.onPlaneIconChange} src={ICONS[icon]} className="menu-plane-icon" />
         <ListItemText
           primary={<EditableText value={name} onSubmit={this.props.onPlaneRename} />}
           secondary={makeSubtext(altitude, heading, speed)}

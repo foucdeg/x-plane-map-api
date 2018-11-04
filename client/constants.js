@@ -24,7 +24,7 @@ export const BUILT_ICONS = Object.assign(
   ...Object.keys(ICONS).map(iconName => ({
     [iconName]: new Leaflet.icon({
       iconUrl: ICONS[iconName],
-      iconSize: [30, 30],
+      iconSize: [80, 80],
     }),
   })),
 );

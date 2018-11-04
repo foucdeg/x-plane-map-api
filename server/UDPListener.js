@@ -65,7 +65,7 @@ class UDPListener {
 
     if (!planeInfo.positionHistory) planeInfo.positionHistory = [];
     if (!planeInfo.name) planeInfo.name = ip;
-    if (!planeInfo.icon) planeInfo.icon = 'airliner';
+    if (!planeInfo.icon) planeInfo.icon = 'helicopter1';
     if (!planeInfo.heading) planeInfo.heading = 0;
     if (!planeInfo.speed) planeInfo.speed = 0;
 
