@@ -1,5 +1,7 @@
+/* eslint no-underscore-dangle: "off" */
 import { MapLayer, withLeaflet } from 'react-leaflet';
 import { Marker as LeafletMarker } from 'leaflet';
+import { PERIOD } from '../constants';
 
 require('leaflet-rotatedmarker');
 
@@ -32,6 +34,10 @@ class RotatingMarker extends MapLayer {
     }
     if (toProps.rotationAngle !== fromProps.rotationAngle) {
       this.leafletElement.setRotationAngle(toProps.rotationAngle);
+    }
+
+    if (this.leafletElement._icon) {
+      this.leafletElement._icon.style.transition = `all ${PERIOD - 10}ms linear`;
     }
   }
 }
