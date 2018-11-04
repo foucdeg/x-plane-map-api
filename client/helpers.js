@@ -1,4 +1,4 @@
-const DEVIATION_THRESHOLD = 0.01; // square seconds
+const DEVIATION_THRESHOLD = 0.1; // square seconds
 const FEET_IN_A_METER = 3.28;
 const METERS_IN_A_LAT_DEGREE = 111319;
 const METERS_IN_A_LON_DEGREE = 78850; // at 45 deg latitude
@@ -43,7 +43,7 @@ function shouldKeepCurrentPoint(previousPoint, currentPoint, nextPoint, speed) {
   const speedInMetersSecond = speed * METERS_SECONDS_IN_A_KNOT;
   const squareOffsetDistance = getSquareOffsetDistance(previousPoint, currentPoint, nextPoint);
 
-  const squaredOffsetTime = squareOffsetDistance / speedInMetersSecond / speedInMetersSecond;
+  const squaredOffsetTime = squareOffsetDistance / speedInMetersSecond;
 
   return squaredOffsetTime > DEVIATION_THRESHOLD;
 }
