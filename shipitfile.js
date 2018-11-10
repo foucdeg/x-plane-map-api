@@ -40,24 +40,29 @@ module.exports = function shipitConfig(shipit) {
     },
   });
 
-  shipit.task('pm2-reload', () => {
-    shipit.remote('pm2 reload ecosystem.config.js --only x-plane-map-api');
+  shipit.blTask('build-client', async () => {
+    await shipit.remote(`cd ${shipit.releasePath}/client && yarn && yarn build`);
+    shipit.emit('client_built');
+  });
+
+  shipit.task('chmod-release', async () => {
+    await shipit.remote(`chmod a+x ${shipit.releasePath}`);
+  });
+
+  shipit.task('pm2-reload', async () => {
+    await shipit.remote('pm2 reload ecosystem.config.js --only x-plane-map-api');
     shipit.emit('reloaded');
   });
-
-  shipit.on('deployed', () => {
-    shipit.start('pm2-reload');
-  });
-
-  shipit.task('chmod-release', () => {
-    shipit.remote(`chmod a+x ${shipit.releasePath}`);
-  })
 
   shipit.on('updated', () => {
     shipit.start('chmod-release');
   });
 
   shipit.on('yarn_installed', () => {
-    shipit.run('cd client && yarn && yarn build');
+    shipit.start('build-client');
+  });
+
+  shipit.on('deployed', () => {
+    shipit.start('pm2-reload');
   });
 };
