@@ -18,9 +18,7 @@ module.exports = function shipitConfig(shipit) {
       updateSubmodules: true,
       yarn: {
         remote: true,
-        cmd: 'client:build'
       },
-      up
     },
     prod: {
       servers: [
@@ -44,11 +42,11 @@ module.exports = function shipitConfig(shipit) {
 
   shipit.task('pm2-reload', () => {
     shipit.remote('pm2 reload ecosystem.config.js --only x-plane-map-api');
+    shipit.emit('reloaded');
   });
 
   shipit.on('deployed', () => {
     shipit.start('pm2-reload');
-    shipit.emit('reloaded');
   });
 
   shipit.task('chmod-release', () => {
@@ -57,11 +55,9 @@ module.exports = function shipitConfig(shipit) {
 
   shipit.on('updated', () => {
     shipit.start('chmod-release');
-    shipit.emit('chmodded');
   });
 
   shipit.on('yarn_installed', () => {
-    shipit.start('yarn:run');
-    shipit.emit('built');
+    shipit.run('cd client && yarn && yarn build');
   });
 };
