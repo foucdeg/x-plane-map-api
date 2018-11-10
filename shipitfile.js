@@ -15,10 +15,12 @@ module.exports = function shipitConfig(shipit) {
       keepReleases: 3,
       deleteOnRollback: false,
       shallowClone: true,
+      updateSubmodules: true,
       yarn: {
         remote: true,
         cmd: 'client:build'
       },
+      up
     },
     prod: {
       servers: [
@@ -51,10 +53,15 @@ module.exports = function shipitConfig(shipit) {
 
   shipit.task('chmod-release', () => {
     shipit.remote(`chmod a+x ${shipit.releasePath}`);
-  });
+  })
 
   shipit.on('updated', () => {
     shipit.start('chmod-release');
     shipit.emit('chmodded');
+  });
+
+  shipit.on('yarn_installed', () => {
+    shipit.start('yarn:run');
+    shipit.emit('built');
   });
 };
