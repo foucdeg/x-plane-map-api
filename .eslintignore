@@ -1,4 +1,3 @@
 server/.eslintrc.json
 client/.eslintrc.json
-webpack.config.js
 shipitfile.js
