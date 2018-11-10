@@ -51,15 +51,10 @@ module.exports = function shipitConfig(shipit) {
 
   shipit.task('chmod-release', () => {
     shipit.remote(`chmod a+x ${shipit.releasePath}`);
-  })
+  });
 
   shipit.on('updated', () => {
     shipit.start('chmod-release');
     shipit.emit('chmodded');
-  })
-
-  shipit.on('yarn_installed', () => {
-    shipit.start('yarn:run');
-    shipit.emit('built');
   });
 };
