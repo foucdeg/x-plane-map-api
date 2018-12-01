@@ -20,14 +20,6 @@ module.exports = function shipitConfig(shipit) {
         remote: true,
       },
     },
-    prod: {
-      servers: [
-        {
-          host: 'vps',
-          user: 'fouc',
-        },
-      ],
-    },
     konstantin: {
       servers: [
         {
