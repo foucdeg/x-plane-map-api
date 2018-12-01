@@ -1,9 +1,9 @@
 {
-  "name": "x-plane-map-api",
+  "name": "airspaces-api",
   "version": "1.0.0",
-  "description": "Server hosted X-Plane-Map",
+  "description": "Server hosted Airspaces",
   "main": "index.js",
-  "author": "Foucauld Degeorges <foucdeg@gmail.com>",
+  "author": "Foucauld Degeorges <foucauld.degeorges@gmail.com>",
   "license": "MIT",
   "private": false,
   "devDependencies": {
