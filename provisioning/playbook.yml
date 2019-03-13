@@ -28,7 +28,7 @@
   - name: Make sure dockers are running
     docker_container:
       name: "airspace_{{ item.name }}"
-      image: foucdeg/airspaces:latest
+      image: foucdeg/airspaces:api
       state: started
       ports:
         - "{{ item.web_port }}:9000"

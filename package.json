@@ -18,7 +18,8 @@
     "client:build": "cd client && yarn build",
     "client:start": "cd client && yarn start",
     "server:start": "MAP_SERVER_PORT=9000 node ./server/server.js",
-    "fake": "node ./tools/faker.js"
+    "fake": "node ./tools/faker.js",
+    "fake:replay": "node ./tools/replay-faker.js"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
