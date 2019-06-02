@@ -13,3 +13,5 @@ install:
   - npm ci
 script:
   - $(npm bin)/cypress run --record
+git:
+  submodules: false
