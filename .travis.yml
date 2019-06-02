@@ -10,8 +10,9 @@ cache:
   directories:
     - ~/.cache
 install:
-  - npm ci
+  - npm i -g yarn
+  - yarn
 script:
-  - $(npm bin)/cypress run --record
+  - $(yarn bin)/cypress run --record
 git:
   submodules: false
