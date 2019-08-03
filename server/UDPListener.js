@@ -8,19 +8,27 @@ const HISTORY_DURATION = 5000;
 class UDPListener {
   static readMessage(message) {
     // See http://www.nuclearprojects.com/xplane/xplaneref.html
+    let data = {};
     let i = 5;
     while (i + 36 <= message.length) {
       if (message.readInt8(i) === 20) {
-        return {
+        data = {
+          ...data,
           latitude: message.readFloatLE(i + 4),
           longitude: message.readFloatLE(i + 8),
           altitude: message.readFloatLE(i + 12),
           date: Date.now(),
         };
       }
+      if (message.readInt8(i) === 104) {
+        data = {
+          ...data,
+          transponder: message.readFloatLE(i + 8),
+        };
+      }
       i += 36;
     }
-    return null;
+    return data;
   }
 
   static calculateSpeed(from, to) {
@@ -49,8 +57,9 @@ class UDPListener {
     });
 
     this.server.on('message', (msg, rinfo) => {
-      const newLocation = UDPListener.readMessage(msg);
-      this.updatePosition(rinfo.address, newLocation);
+      const data = UDPListener.readMessage(msg);
+      const identifier = `XPNDR ${data.transponder} (${rinfo.address})`;
+      this.updatePosition(identifier, data);
     });
 
     this.listening = false;
@@ -58,13 +67,13 @@ class UDPListener {
     setInterval(this.cleanOutdatedPlanes.bind(this), 1000);
   }
 
-  updatePosition(ip, newLocation) {
+  updatePosition(identifier, newLocation) {
     if (!newLocation) return;
-    const planeInfo = this.planeList[ip] || {};
+    const planeInfo = this.planeList[identifier] || {};
     Object.assign(planeInfo, newLocation);
 
     if (!planeInfo.positionHistory) planeInfo.positionHistory = [];
-    if (!planeInfo.name) planeInfo.name = ip;
+    if (!planeInfo.name) planeInfo.name = identifier;
     if (!planeInfo.icon) planeInfo.icon = 'airliner';
     if (!planeInfo.heading) planeInfo.heading = 0;
     if (!planeInfo.speed) planeInfo.speed = 0;
@@ -86,7 +95,7 @@ class UDPListener {
 
     planeInfo.speed = UDPListener.calculateSpeed(from, to);
 
-    this.planeList[ip] = planeInfo;
+    this.planeList[identifier] = planeInfo;
   }
 
   listen(port) {
@@ -97,12 +106,12 @@ class UDPListener {
   }
 
   cleanOutdatedPlanes() {
-    Object.keys(this.planeList).forEach((ip) => {
-      const latestPositionDate = this.planeList[ip].positionHistory[0].date;
+    Object.keys(this.planeList).forEach((identifier) => {
+      const latestPositionDate = this.planeList[identifier].positionHistory[0].date;
       // if latest known position is older than 60s
       if ((Date.now() - latestPositionDate) > 60000) {
         // assume they crashed and call 911
-        delete this.planeList[ip];
+        delete this.planeList[identifier];
       }
     });
   }
